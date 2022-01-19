@@ -1,5 +1,7 @@
 import copy
 import numpy as np
+import pandas as pd
+import os
 
 import config
 from GA import Gene, select_offspring, crossover, mutation
@@ -12,22 +14,35 @@ def make_init_population():
     for _ in range(config.CHILD_POPULATION + config.ELITE_POPULATION):
         gene = Gene()
         population.append(gene)
+    return population
 
 #TODO 出力，最後のテスト
 def main():
+    score_list = []
+    most_elite_score = 1e18
+    most_elite_gene = None
     state = State()
+    print("Start state")
+    state.show()
+    print(state.count_tree_num())
     population = make_init_population()
     for i in range(config.GENERATIONS):
         print(f'start {i+1} / {config.GENERATIONS}')
-        #初期化
-        population = []
+        #評価用個体格納場所
+        calc_population = []
         for gene in population:
             gene.reset_evaluation_value()
             cp_state = copy.deepcopy(state)
             simulator = Simurator(cp_state, gene)
-            simulator.simulate()
-            population.append(simulator.gene)
-        elite_population = sorted(population, key=lambda ga: ga.evaluation_value, reverse=True)[:config.ELITE_POPULATION]
+            simulator.simulate(config.YEARS)
+            calc_population.append(simulator.gene)
+        #昇順ソート
+        elite_population = sorted(calc_population, key=lambda ga: ga.evaluation_value)[:config.ELITE_POPULATION]
+        #最も優秀な個体を保存しておく(追加検証のため)
+        score_list.append(elite_population[0].evaluation_value)
+        if most_elite_score > elite_population[0].evaluation_value:
+            most_elite_score = elite_population[0].evaluation_value
+            most_elite_gene = elite_population[0]
         child_population = []
         for _ in range(config.CHILD_POPULATION//2):
             #エリート選択
@@ -46,6 +61,17 @@ def main():
         elite_population.extend(child_population)
         #世代交代
         population = elite_population
+    df1 = pd.DataFrame(score_list)
+    df1.to_csv(os.path.join(".", "log", "score.csv"))
+    df2 = pd.DataFrame(most_elite_gene.value)
+    df2.to_csv(os.path.join(".", "log", "elite_gene.csv"))
+    cp_state = copy.deepcopy(state)
+    simulator = Simurator(cp_state, most_elite_gene)
+    simulator.simulate(config.EXP_YEAR)
+    print("result : ")
+    print(simulator.state.count_tree_num())
+    print("field ")
+    simulator.state.show()
 
 
 if __name__ == '__main__':
