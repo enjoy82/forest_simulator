@@ -48,13 +48,13 @@ class Tree:
 class Needle_Leaf(Tree):
     #寿命で枯れているかの判定関数
     def blast(self):
-        if self.diameter > 50 and np.random.rand() < 0.3:
+        if self.diameter > 35 and np.random.rand() < 0.2:
             return True
         return False
     
     #木の直径を増やす関数
     def grow(self):
-        self.diameter += (0.3 / 11.5) * self.gene.value[0]
+        self.diameter += (30 / 37.5) * self.gene.value[0]
     
     #病気で枯れているかの判定関数
     def desease(self):
@@ -73,13 +73,13 @@ class Needle_Leaf(Tree):
 class Broad_Leaf(Tree):
     #寿命で枯れているかの判定関数
     def blast(self):
-        if self.diameter > 50 and np.random.rand() < 0.3:
+        if self.diameter > 35 and np.random.rand() < 0.2:
             return True
         return False
     
     #木の直径を増やす関数
     def grow(self):
-        self.diameter += (0.3 / 11.5) * self.gene.value[1]
+        self.diameter += (30 / 48) * self.gene.value[1]
     
     #病気で枯れているかの判定関数
     def desease(self):
@@ -104,7 +104,7 @@ class Shrub(Tree):
     
     #木の直径を増やす関数
     def grow(self):
-        self.diameter += (0.3 / 11.5) * self.gene.value[2]
+        self.diameter += (30 / 37.5) * self.gene.value[2]
     
     #病気で枯れているかの判定関数
     def desease(self):
