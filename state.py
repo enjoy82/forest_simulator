@@ -16,7 +16,7 @@ class State:
         #for文回しまくって，Noneのところにはやしていく
         for i in range(len(input.FIRST_Needle_Leaf)):
             Needle_Leaf_num = int((input.FIRST_Needle_Leaf[i] * input.FIRST_ALL) // mul)
-            print(Needle_Leaf_num)
+            #print(Needle_Leaf_num)
             for _ in range(Needle_Leaf_num):
                 while(1):
                     pos = int(np.random.rand() * (config.WIDTH * config.HEIGHT))
@@ -28,7 +28,7 @@ class State:
         
         for i in range(len(input.FIRST_Broad_Leaf)):
             Broad_Leaf_num = int((input.FIRST_Broad_Leaf[i] * input.FIRST_ALL) // mul)
-            print(Broad_Leaf_num)
+            #print(Broad_Leaf_num)
             for _ in range(Broad_Leaf_num):
                 while(1):
                     pos = int(np.random.rand() * (config.WIDTH * config.HEIGHT))
@@ -40,7 +40,7 @@ class State:
         
         for i in range(len(input.FIRST_Shrub)):
             Shrub_num = int((input.FIRST_Shrub[i] * input.FIRST_ALL) // mul)
-            print(Shrub_num)
+            #print(Shrub_num)
             for _ in range(Shrub_num):
                 while(1):
                     pos = int(np.random.rand() * (config.WIDTH * config.HEIGHT))

@@ -16,6 +16,13 @@ def make_init_population():
         population.append(gene)
     return population
 
+def show_result(res):
+    kind = ["針葉樹", "広葉樹", "灌木"]
+    size = ["低", "中", "高"]
+    for i, k in enumerate(kind):
+        for l, s in enumerate(size):
+            print(f"{k} {s}木: {res[i][l]}本")
+
 #TODO 出力，最後のテスト
 def main():
     score_list = []
@@ -24,7 +31,7 @@ def main():
     state = State()
     print("Start state")
     state.show()
-    print(state.count_tree_num())
+    show_result(state.count_tree_num())
     population = make_init_population()
     for i in range(config.GENERATIONS):
         print(f'start {i+1} / {config.GENERATIONS}')
@@ -40,6 +47,7 @@ def main():
         elite_population = sorted(calc_population, key=lambda ga: ga.evaluation_value)[:config.ELITE_POPULATION]
         #最も優秀な個体を保存しておく(追加検証のため)
         score_list.append(elite_population[0].evaluation_value)
+        print(f"best score : {elite_population[0].evaluation_value}")
         if most_elite_score > elite_population[0].evaluation_value:
             most_elite_score = elite_population[0].evaluation_value
             most_elite_gene = elite_population[0]
@@ -51,11 +59,8 @@ def main():
             #交叉
             if np.random.rand() < config.CHI:
                 child1, child2 = crossover(child1, child2)
-            #突然変異
-            if np.random.rand() < config.MU:
-                child1 = mutation(child1)
-            if np.random.rand() < config.MU:
-                child2 = mutation(child2)
+            child1 = mutation(child1)
+            child2 = mutation(child2)
             child_population.append(child1)
             child_population.append(child2)
         elite_population.extend(child_population)
@@ -68,9 +73,9 @@ def main():
     cp_state = copy.deepcopy(state)
     simulator = Simurator(cp_state, most_elite_gene)
     simulator.simulate(config.EXP_YEAR)
-    print("result : ")
-    print(simulator.state.count_tree_num())
-    print("field ")
+    print("150年後の推定値 : ")
+    show_result(simulator.state.count_tree_num())
+    print("150年後の推定フィールド ")
     simulator.state.show()
 
 

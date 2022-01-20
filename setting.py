@@ -116,6 +116,6 @@ class Shrub(Tree):
         return "Shrub"
 
     def breed(self):
-        if np.random.rand() < 0.3*self.gene.value[2*3+2]:
+        if np.random.rand() < 0.5*self.gene.value[2*3+2]:
             return True
         return False

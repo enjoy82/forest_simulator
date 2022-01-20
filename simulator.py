@@ -26,7 +26,7 @@ class Simurator:
         score = 0
         count_tree = self.state.count_tree_num()
         #TODO check!!
-        print(count_tree)
+        #print(count_tree)
         #self.state.show()
         if year == 50:
             for i in range(len(input.SECOND_Needle_Leaf)):
